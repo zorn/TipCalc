@@ -1,40 +1,29 @@
-//
-//  TipCalcTests.m
-//  TipCalcTests
-//
-//  Created by Michael D Zornek on 7/22/15.
-//  Copyright (c) 2015 Big Nerd Ranch. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "TipCalc.h"
 
 @interface TipCalcTests : XCTestCase
-
+@property (strong) TipCalc *sharedTipCalc;
 @end
 
 @implementation TipCalcTests
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    self.sharedTipCalc = [[TipCalc alloc] init];
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    self.sharedTipCalc = nil;
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)test10PercentTipOn50Bill {
+    NSDecimalNumber *tipPercent = [NSDecimalNumber decimalNumberWithString:@"0.10"];
+    NSDecimalNumber *bill = [NSDecimalNumber decimalNumberWithString:@"50"];
+    NSDecimalNumber *expectedTip = [NSDecimalNumber decimalNumberWithString:@"5"];
+    NSDecimalNumber *actualTip = [self.sharedTipCalc tipForBill:bill percent:tipPercent];
+    XCTAssertEqualObjects(actualTip, expectedTip);
 }
 
 @end
